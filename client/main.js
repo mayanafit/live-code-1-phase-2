@@ -15,6 +15,9 @@ function homeBeforeLogin() {
     $(`#loginForm`).show()
     $(`#addForm`).hide()
     $(`#dataPage`).hide()
+    $(`#alertLogin`).empty()
+    $(`#emailLogin`).val(``)
+    $(`#passwordLogin`).val(``)
 }
 
 function homeAfterLogin() {
@@ -23,6 +26,7 @@ function homeAfterLogin() {
     $(`#loginForm`).hide()
     $(`#addForm`).hide()
     $(`#dataPage`).show()
+    $(`#alertPassword`).empty()
 }
 
 function logout() {
@@ -34,11 +38,15 @@ function addForm() {
     $(`#alertAdd`).empty()
     $(`#addForm`).show()
     $(`#dataPage`).hide()
+    $(`#addName`).val(``)
+    $(`#addUrl`).val(``)
+    $(`#addedPassword`).val(``)
+    $(`#addUsername`).val(``)
 }
 
 function loginProcess(event) {
     event.preventDefault()
-
+    $(`#alertLogin`).empty()
     let email = $(`#emailLogin`).val()
     let password = $(`#passwordLogin`).val()
 
@@ -56,11 +64,18 @@ function loginProcess(event) {
     })
     .fail(err => {
         console.log(err)
+        $(`#alertLogin`).append(`
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>${err.responseJSON.message}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        `)
     })
     .always(() => {
         $(`#emailLogin`).val(``)
         $(`#passwordLogin`).val(``)
-
     })
 }
 
@@ -75,7 +90,7 @@ function showPassword() {
         }
     })
     .done(data => {
-        console.log(data)
+        // console.log(data)
         if (data.length === 0) {
             $(`#passwordEmpty`).show()
         } else {
@@ -110,6 +125,7 @@ function showPassword() {
 
 function addPassword(event) {
     event.preventDefault()
+    $(`#alertPassword`).empty()
     $(`#alertAdd`).empty()
     let name = $(`#addName`).val()
     let url = $(`#addUrl`).val()
@@ -129,6 +145,14 @@ function addPassword(event) {
         // console.log(data)
         homeAfterLogin()
         showPassword()
+        $(`#alertPassword`).append(`
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Successfully add new Password!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        `)
     })
     .fail(err => {
         err.responseJSON.message.forEach(element => {
@@ -145,14 +169,14 @@ function addPassword(event) {
     .always(() => {
         $(`#addName`).val(``)
         $(`#addUrl`).val(``)
-        $(`#addPassword`).val(``)
+        $(`#addedPassword`).val(``)
         $(`#addUsername`).val(``)
     })
 }
 
 function deletePassword(params) {
     let id = params
-
+    $(`#alertPassword`).empty()
     $.ajax({
         method: `DELETE`,
         url: `http://localhost:3000/passwords/${id}`,
@@ -163,6 +187,14 @@ function deletePassword(params) {
     .done(data => {
         // console.log(data)
         showPassword()
+        $(`#alertPassword`).append(`
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>${data.message}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        `)
     })
     .fail(err => {
         console.log(err)
