@@ -4,7 +4,7 @@ const {decode} = require(`../helpers/jwt`)
 const authentication = (req, res, next) => {
     let access_token = req.headers.access_token
     let userData = decode(access_token)
-    console.log(userData)
+    // console.log(userData)
     req.user = userData
 
     User.findByPk(userData.id) 
@@ -27,17 +27,16 @@ const authorization = (req, res, next) => {
         message: `Sorry, you have no access to this.`
     }
 
-    Password.findOne({where: {id}})
+    Password.findOne({where: {id, UserId}})
     .then(data => {
         if (data) {
-            if (data.UserId === UserId) {
-                next()
-            } else {
-                throw error
-            }
-        } else {
             next()
+        } else {
+            throw error
         }
+    })
+    .catch(err => {
+        next(err)
     })
 }
 

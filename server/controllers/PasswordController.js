@@ -2,10 +2,10 @@ const {Password} = require(`../models`)
 
 class PasswordController {
 
-    static show(req, res, next) {
-        // let UserId = req.user.id
+    static showAll(req, res, next) {
+        let UserId = req.user.id
         // console.log(UserId)
-        Password.findAll()
+        Password.findAll({where: {UserId}})
         .then(data => {
             let results = []
             data.forEach(element => {
@@ -13,7 +13,7 @@ class PasswordController {
             });
             res.status(200).json(results)
         })
-        .cacth(err => {
+        .catch(err => {
             next()
         })
     }
@@ -30,7 +30,7 @@ class PasswordController {
 
         Password.create(newPassword)
         .then(data => {
-            res.status(201).json(data)
+            res.status(201).json(newPassword)
         })
         .catch(err => {
             next(err)
@@ -38,7 +38,15 @@ class PasswordController {
     }
 
     static delete(req, res,next) {
-
+        let id = req.params.id
+        
+        Password.destroy({where: {id}})
+        .then(data => {
+            res.status(200).json({message: `Delete password successful!`})
+        })
+        .catch(err => {
+            next(err)
+        })
     }
 }
 
