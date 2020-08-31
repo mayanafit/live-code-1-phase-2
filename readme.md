@@ -9,6 +9,7 @@ SECRET=iniPasswordManagerGuys
 How to use:
 1. cd server > npm i > node app.js / nodemon app.js
 2. live-server the index.html to begin
+3. login with user 'mayanafit@email.com' password: 12345
 
 Pada kali ini kalian akan membuat sebuah website yang dapat menampilkan list password,  menambahkan password dan delete password, semua fitur membutuhkan login
 
