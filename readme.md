@@ -2,13 +2,13 @@
 
 ## Hacktiv Password Manager
 
-**ENV:
-**PORT=3000
-**SECRET=iniPasswordManagerGuys
+ENV:
+PORT=3000
+SECRET=iniPasswordManagerGuys
 
-**how to use:
-**1. cd server > npm i > node app.js / nodemon app.js
-**2. live-server the index.html to begin
+How to use:
+1. cd server > npm i > node app.js / nodemon app.js
+2. live-server the index.html to begin
 
 Pada kali ini kalian akan membuat sebuah website yang dapat menampilkan list password,  menambahkan password dan delete password, semua fitur membutuhkan login
 
